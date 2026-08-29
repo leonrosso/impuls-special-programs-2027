@@ -2,7 +2,6 @@ import { useState } from "react";
 import type { ProgramRow } from "../types";
 import { formatDate, getUrgency } from "../urgency";
 import type { NotificationsState } from "../useNotifications";
-import { DescriptionModal } from "./DescriptionModal";
 import { NotificationBell } from "./NotificationBell";
 
 interface Props {
@@ -18,7 +17,7 @@ const URGENCY_LABEL: Record<string, string> = {
 };
 
 export function ProgramCard({ row, notifications }: Props) {
-  const [descriptionOpen, setDescriptionOpen] = useState(false);
+  const [eventsOpen, setEventsOpen] = useState(false);
 
   const urgency = row.deadlineDate ? getUrgency(row.deadlineDate) : null;
   const subscribed = notifications.subscriptions.has(`${row.title}__${row.deadlineRaw}`);
@@ -39,17 +38,6 @@ export function ProgramCard({ row, notifications }: Props) {
             supported={notifications.supported}
             onToggle={notifications.toggleSubscription}
           />
-          {row.description && (
-            <button
-              type="button"
-              className="icon-button card__expand"
-              onClick={() => setDescriptionOpen(true)}
-              aria-label="Leggi la descrizione completa"
-              title="Leggi la descrizione completa"
-            >
-              +
-            </button>
-          )}
         </div>
       </header>
 
@@ -85,12 +73,24 @@ export function ProgramCard({ row, notifications }: Props) {
         Equivalent: <strong>{row.equivalentHours}</strong> h/lezione
       </p>
 
-      {descriptionOpen && (
-        <DescriptionModal
-          title={row.title}
-          description={row.description}
-          onClose={() => setDescriptionOpen(false)}
-        />
+      {eventsOpen && row.description && (
+        <section className="card__events" aria-label="Eventi">
+          <h3 className="card__events-title">Eventi</h3>
+          <p className="card__events-body">{row.description}</p>
+        </section>
+      )}
+
+      {row.description && (
+        <button
+          type="button"
+          className="icon-button card__expand-btn"
+          onClick={() => setEventsOpen((open) => !open)}
+          aria-expanded={eventsOpen}
+          aria-label={eventsOpen ? "Nascondi eventi" : "Mostra eventi"}
+          title={eventsOpen ? "Nascondi eventi" : "Mostra eventi"}
+        >
+          {eventsOpen ? "−" : "+"}
+        </button>
       )}
     </article>
   );
