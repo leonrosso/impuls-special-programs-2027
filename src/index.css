@@ -136,10 +136,11 @@ body {
 }
 
 .card {
+  position: relative;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 0.85rem;
-  padding: 1rem;
+  padding: 1rem 1rem 3rem;
 }
 
 .card--past {
@@ -280,8 +281,35 @@ body {
   color: var(--accent);
 }
 
-.card__expand {
+.card__expand-btn {
+  position: absolute;
+  bottom: 0.75rem;
+  right: 0.75rem;
   font-weight: 700;
+  z-index: 1;
+}
+
+.card__events {
+  margin-top: 0.75rem;
+  padding: 0.75rem 2.75rem 0.75rem 0.75rem;
+  background: var(--surface-alt);
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+}
+
+.card__events-title {
+  margin: 0 0 0.4rem;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--text-muted);
+}
+
+.card__events-body {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--text);
+  white-space: pre-line;
 }
 
 .notify {
@@ -312,50 +340,6 @@ body {
   border-radius: 0.5rem;
   z-index: 20;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
-}
-
-.modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.65);
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  z-index: 50;
-  padding: 0;
-}
-
-.modal-panel {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-top: 3px solid var(--accent);
-  border-radius: 1rem 1rem 0 0;
-  width: 100%;
-  max-width: 640px;
-  max-height: 85vh;
-  overflow-y: auto;
-  padding: 1.1rem 1.1rem 1.5rem;
-}
-
-.modal-panel__header {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 0.75rem;
-  margin-bottom: 0.75rem;
-}
-
-.modal-panel__header h2 {
-  margin: 0;
-  font-size: 1.15rem;
-  color: var(--accent);
-}
-
-.modal-panel__body p {
-  margin: 0;
-  font-size: 0.95rem;
-  color: var(--text);
-  white-space: pre-line;
 }
 
 .settings {
@@ -416,15 +400,5 @@ body {
 
   .app__header h1 {
     font-size: 1.8rem;
-  }
-
-  .modal-overlay {
-    align-items: center;
-  }
-
-  .modal-panel {
-    border-radius: 1rem;
-    border-top: 1px solid var(--border);
-    border-left: 3px solid var(--accent);
   }
 }
