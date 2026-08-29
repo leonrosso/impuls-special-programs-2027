@@ -4,14 +4,16 @@ import type { ProgramRow } from "./types";
 export const CSV_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vRoJ5CF-FcDyBPkF_-LVqSKedKLh7DqIvj3uWv4xRXSzZxOfG-qvVVi2Sx5LCS6B9YdCYdQdxVUdw-k/pub?output=csv";
 
-const EXPECTED_COLUMNS = 8;
+const EXPECTED_COLUMNS = 9;
 
 /**
- * The source header row is malformed (an unquoted comma inside one column
- * title splits it into two tokens) and many rows carry a trailing comma
- * that produces a phantom empty 9th column. Both are known defects of the
- * published sheet, so we parse positionally (header: false) and never
- * trust papaparse's own header-derived keys.
+ * The sheet has occasional malformed rows (e.g. a shifted "Equivalent"
+ * column on one entry), a known defect of the source, so we parse
+ * positionally (header: false) and never trust papaparse's own
+ * header-derived keys. Columns: Title, Coach, Deadline, Zoom Meetings,
+ * Decision, Deadline 2, Equivalent, Description (summary), Full
+ * Description — the app shows the full description (column 9), not the
+ * website summary (column 8).
  */
 export function parseCsv(text: string): ProgramRow[] {
   const result = Papa.parse<string[]>(text, {
@@ -52,7 +54,7 @@ export function parseCsv(text: string): ProgramRow[] {
       decision: cell(4),
       deadline2: cell(5),
       equivalentHours: Number.isFinite(equivalentHours) ? equivalentHours : 0,
-      description: cell(7),
+      description: cell(8) || cell(7),
     });
   });
 

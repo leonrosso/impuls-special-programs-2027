@@ -22,5 +22,5 @@ L'output statico in `dist/` è pronto per il deploy su Vercel senza configurazio
 
 ## Note tecniche
 
-- **Parsing CSV**: il foglio sorgente ha due difetti noti (un'intestazione con virgola non quotata e una virgola finale su molte righe). `src/csv.ts` fa il parsing posizionale con Papaparse (`header: false`) e ignora qualsiasi colonna oltre l'ottava, evitando di fidarsi delle chiavi generate dall'header rotto.
+- **Parsing CSV**: il foglio ha 9 colonne (Title, Coach, Deadline, Zoom Meetings, Decision, Deadline 2, Equivalent, Description, Full Description) e occasionali righe malformate (es. una colonna Equivalent disallineata su una riga). `src/csv.ts` fa il parsing posizionale con Papaparse (`header: false`) e non si fida delle chiavi generate dall'header. L'app mostra la Full Description (colonna 9); la Description (colonna 8, il riassunto usato sul sito) è usata solo come fallback se la colonna 9 è vuota.
 - **Offline**: `src/useDeadlines.ts` salva l'ultimo CSV scaricato con successo in `localStorage` (con timestamp) e lo usa come fallback quando il fetch fallisce, mostrando un banner "Dati offline". Un service worker (`public/sw.js`) cachea inoltre l'app shell e la risposta CSV via Cache API per l'installabilità offline della PWA.
