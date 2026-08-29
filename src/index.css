@@ -1,0 +1,253 @@
+:root {
+  color-scheme: light dark;
+  --bg: #0f172a;
+  --surface: #1e293b;
+  --surface-alt: #273449;
+  --text: #f1f5f9;
+  --text-muted: #94a3b8;
+  --accent: #38bdf8;
+  --border: #334155;
+
+  --red: #ef4444;
+  --red-bg: #45201f;
+  --orange: #f97316;
+  --orange-bg: #402617;
+  --grey: #64748b;
+  --grey-bg: #2b3444;
+
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.5;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+}
+
+#root {
+  min-height: 100dvh;
+}
+
+.app {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 1rem 1rem 3rem;
+}
+
+.app__header {
+  padding: 0.5rem 0 1rem;
+}
+
+.app__header h1 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.app__subtitle {
+  margin: 0.15rem 0 0;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.offline-banner {
+  background: var(--orange-bg);
+  border: 1px solid var(--orange);
+  color: var(--text);
+  padding: 0.6rem 0.8rem;
+  border-radius: 0.5rem;
+  font-size: 0.85rem;
+  margin-bottom: 0.75rem;
+}
+
+.search-bar {
+  margin-bottom: 1rem;
+}
+
+.search-bar input {
+  width: 100%;
+  padding: 0.7rem 0.9rem;
+  border-radius: 0.6rem;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  font-size: 1rem;
+}
+
+.search-bar input:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.status-message {
+  color: var(--text-muted);
+  text-align: center;
+  padding: 2rem 1rem;
+}
+
+.status-message--error {
+  color: var(--red);
+}
+
+.section-title {
+  font-size: 1rem;
+  color: var(--text-muted);
+  margin: 1.75rem 0 0.75rem;
+  padding-top: 1rem;
+  border-top: 1px dashed var(--border);
+}
+
+.program-list,
+.program-list-section .program-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 0.85rem;
+  padding: 1rem;
+}
+
+.card--past {
+  opacity: 0.65;
+}
+
+.card__header {
+  margin-bottom: 0.6rem;
+}
+
+.card__title {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.card__coach {
+  margin: 0.2rem 0 0;
+  color: var(--accent);
+  font-size: 0.9rem;
+}
+
+.card__deadline {
+  margin-bottom: 0.6rem;
+}
+
+.badge {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 0.05rem;
+  padding: 0.45rem 0.75rem;
+  border-radius: 0.5rem;
+  font-size: 1.15rem;
+  font-weight: 600;
+  background: var(--surface-alt);
+  color: var(--text);
+}
+
+.badge em {
+  font-style: normal;
+  font-size: 0.7rem;
+  font-weight: 500;
+  opacity: 0.85;
+}
+
+.badge--urgent {
+  background: var(--red-bg);
+  color: var(--red);
+}
+
+.badge--soon {
+  background: var(--orange-bg);
+  color: var(--orange);
+}
+
+.badge--neutral {
+  background: var(--surface-alt);
+  color: var(--text);
+}
+
+.badge--past {
+  background: var(--grey-bg);
+  color: var(--grey);
+  text-decoration: line-through;
+}
+
+.badge--none {
+  background: var(--surface-alt);
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.card__secondary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 0.4rem 1rem;
+  margin: 0 0 0.6rem;
+  font-size: 0.8rem;
+}
+
+.card__secondary dt {
+  color: var(--text-muted);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.card__secondary dd {
+  margin: 0;
+  color: var(--text);
+}
+
+.card__equivalent {
+  margin: 0 0 0.6rem;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.card__equivalent strong {
+  color: var(--text);
+}
+
+.card__description p {
+  margin: 0 0 0.35rem;
+  font-size: 0.9rem;
+  color: var(--text);
+}
+
+.clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.card__toggle {
+  background: none;
+  border: none;
+  color: var(--accent);
+  font-size: 0.85rem;
+  padding: 0;
+  cursor: pointer;
+}
+
+.card__toggle:hover {
+  text-decoration: underline;
+}
+
+@media (min-width: 640px) {
+  .app {
+    padding-top: 2rem;
+  }
+
+  .app__header h1 {
+    font-size: 1.8rem;
+  }
+}
