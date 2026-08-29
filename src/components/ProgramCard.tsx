@@ -1,9 +1,13 @@
 import { useState } from "react";
 import type { ProgramRow } from "../types";
 import { formatDate, getUrgency } from "../urgency";
+import type { NotificationsState } from "../useNotifications";
+import { DescriptionModal } from "./DescriptionModal";
+import { NotificationBell } from "./NotificationBell";
 
 interface Props {
   row: ProgramRow;
+  notifications: NotificationsState;
 }
 
 const URGENCY_LABEL: Record<string, string> = {
@@ -13,16 +17,40 @@ const URGENCY_LABEL: Record<string, string> = {
   past: "Scaduta",
 };
 
-export function ProgramCard({ row }: Props) {
-  const [expanded, setExpanded] = useState(false);
+export function ProgramCard({ row, notifications }: Props) {
+  const [descriptionOpen, setDescriptionOpen] = useState(false);
 
   const urgency = row.deadlineDate ? getUrgency(row.deadlineDate) : null;
+  const subscribed = notifications.subscriptions.has(`${row.title}__${row.deadlineRaw}`);
 
   return (
     <article className={`card${urgency === "past" ? " card--past" : ""}`}>
       <header className="card__header">
-        <h2 className="card__title">{row.title}</h2>
-        {row.coach && <p className="card__coach">{row.coach}</p>}
+        <div className="card__heading">
+          <h2 className="card__title">{row.title}</h2>
+          {row.coach && <p className="card__coach">{row.coach}</p>}
+        </div>
+        <div className="card__actions">
+          <NotificationBell
+            row={row}
+            subscribed={subscribed}
+            reminderDays={notifications.reminderDays}
+            permission={notifications.permission}
+            supported={notifications.supported}
+            onToggle={notifications.toggleSubscription}
+          />
+          {row.description && (
+            <button
+              type="button"
+              className="icon-button card__expand"
+              onClick={() => setDescriptionOpen(true)}
+              aria-label="Leggi la descrizione completa"
+              title="Leggi la descrizione completa"
+            >
+              +
+            </button>
+          )}
+        </div>
       </header>
 
       <div className="card__deadline">
@@ -57,17 +85,12 @@ export function ProgramCard({ row }: Props) {
         Equivalent: <strong>{row.equivalentHours}</strong> h/lezione
       </p>
 
-      {row.description && (
-        <div className="card__description">
-          <p className={expanded ? "" : "clamp-2"}>{row.description}</p>
-          <button
-            type="button"
-            className="card__toggle"
-            onClick={() => setExpanded((v) => !v)}
-          >
-            {expanded ? "mostra meno" : "leggi tutto"}
-          </button>
-        </div>
+      {descriptionOpen && (
+        <DescriptionModal
+          title={row.title}
+          description={row.description}
+          onClose={() => setDescriptionOpen(false)}
+        />
       )}
     </article>
   );

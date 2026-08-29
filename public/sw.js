@@ -1,4 +1,4 @@
-const CACHE_NAME = "impuls-2027-cache-v1";
+const CACHE_NAME = "impuls-2027-cache-v2";
 const CSV_HOST = "docs.google.com";
 
 self.addEventListener("install", () => {
@@ -34,6 +34,18 @@ self.addEventListener("fetch", (event) => {
   if (url.origin === self.location.origin) {
     event.respondWith(cacheFirst(request));
   }
+});
+
+self.addEventListener("notificationclick", (event) => {
+  event.notification.close();
+  event.waitUntil(
+    self.clients.matchAll({ type: "window", includeUncontrolled: true }).then((clients) => {
+      for (const client of clients) {
+        if ("focus" in client) return client.focus();
+      }
+      if (self.clients.openWindow) return self.clients.openWindow("/");
+    }),
+  );
 });
 
 async function networkFirst(request) {
